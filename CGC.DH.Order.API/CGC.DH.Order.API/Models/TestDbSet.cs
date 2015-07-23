@@ -40,6 +40,12 @@ namespace CGC.DH.Order.API.Models
             return item;
         }
 
+        //public override Task<TEntity> FindAsync(params object[] keyValues) where TEntity : Order
+        //{
+        //    var id = (int)keyValues.Single();
+        //    return Task.FromResult(this.SingleOrDefault(b => b.OrderID == id));
+        //}
+
         public override TEntity Create()
         {
             return Activator.CreateInstance<TEntity>();
