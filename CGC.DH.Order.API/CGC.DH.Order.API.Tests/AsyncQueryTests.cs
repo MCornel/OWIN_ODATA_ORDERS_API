@@ -17,6 +17,9 @@ namespace CGC.DH.Order.API.Tests
             var context = new CGC.DH.Order.API.Models.TestContext();
 
             var service = new CGC.DH.Order.API.Controllers.OrdersController(context);
+            service.Request = new HttpRequestMessage();
+            service.Configuration = new HttpConfiguration();
+
             var order = await service.Post(new CGC.DH.Order.API.Models.Order { MobileNumber = "123-123-1234", PickUpName = "ZZZ" });
 
             Assert.AreEqual(1, context.Orders.Count());
@@ -37,7 +40,7 @@ namespace CGC.DH.Order.API.Tests
 
             var order = await service.Post(new CGC.DH.Order.API.Models.Order { OrderID = 1, MobileNumber = "123-123-1234", PickUpName = "ZZZ" });
 
-            var delta = new System.Web.Http.OData.Delta<CGC.DH.Order.API.Models.Order>();
+            var delta = new System.Web.OData.Delta<CGC.DH.Order.API.Models.Order>();
             delta.TrySetPropertyValue("PickUpName", "ChangedName");
             delta.TrySetPropertyValue("MobileNumber", "111-111-1111");
             
@@ -60,7 +63,7 @@ namespace CGC.DH.Order.API.Tests
             service.Request = new HttpRequestMessage();
             service.Configuration = new HttpConfiguration();
             
-            var delta = new System.Web.Http.OData.Delta<CGC.DH.Order.API.Models.Order>();
+            var delta = new System.Web.OData.Delta<CGC.DH.Order.API.Models.Order>();
             delta.TrySetPropertyValue("PickUpName", "ChangedName");
             delta.TrySetPropertyValue("MobileNumber", "111-111-1111");
 

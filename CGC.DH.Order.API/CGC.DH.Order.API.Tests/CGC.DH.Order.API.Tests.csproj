@@ -51,8 +51,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CGC.DH.Order.API\bin\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.OData">
-      <HintPath>..\CGC.DH.Order.API\bin\System.Web.Http.OData.dll</HintPath>
+    <Reference Include="System.Web.OData">
+      <HintPath>..\packages\Microsoft.AspNet.OData.5.6.0\lib\net45\System.Web.OData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>

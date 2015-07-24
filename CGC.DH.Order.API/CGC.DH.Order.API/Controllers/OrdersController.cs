@@ -9,12 +9,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
-using System.Web.Http.OData;
-using System.Web.Http.OData.Routing;
+using System.Web.OData;
+using System.Web.OData.Routing;
 using CGC.DH.Order.API.Models;
 
 namespace CGC.DH.Order.API.Controllers
-{    
+{
+    //[ODataRoutePrefix("v1")]
     public class OrdersController : ODataController
     {
         
@@ -31,7 +32,8 @@ namespace CGC.DH.Order.API.Controllers
         }
 
         // GET: odata/Orders
-        [EnableQuery]
+        //[ODataRoute("Orders")]
+        [EnableQuery]       
         public IQueryable<CGC.DH.Order.API.Models.Order> GetOrders()
         {
             return db.Orders;

@@ -1,5 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.OData;
 
 
 namespace CGC.DH.Order.API.Tests
@@ -17,6 +20,9 @@ namespace CGC.DH.Order.API.Tests
           
 
             var service = new CGC.DH.Order.API.Controllers.OrdersController(context);
+            service.Request = new HttpRequestMessage();
+            service.Configuration = new HttpConfiguration();
+
             var orders = service.GetOrders().OrderBy(o => o.PickUpName);
 
             Assert.AreEqual(3, orders.Count());
