@@ -16,7 +16,10 @@ namespace CGC.DH.Order.API
     using System.Web.OData.Builder;
     using System.Web.OData.Extensions;
     //using System.Web.Http.Dispatcher;
+    using System.Web.OData.Formatter;
+    using System.Web.OData.Formatter.Deserialization;
     using CGC.DH.Order.API.Models;
+    using CGC.DH.Order.API.Extensions;
     
     public class Startup
     {
@@ -60,6 +63,9 @@ namespace CGC.DH.Order.API
             
             app.UseWebApi(httpConfiguration);
 
+            var odataFormatters = ODataMediaTypeFormatters.Create(new NullSerializerProvider(), new DefaultODataDeserializerProvider());
+            httpConfiguration.Formatters.InsertRange(0, odataFormatters);
+        
             httpConfiguration.EnsureInitialized();
 
             // Make ./public the default root of the static files in our Web Application.

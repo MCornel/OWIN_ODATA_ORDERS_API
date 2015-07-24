@@ -11,7 +11,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
 
-namespace CGC.DH.Order.API
+namespace CGC.DH.Order.API.Extensions
 {
     public class VersionHttpControllerSelector : IHttpControllerSelector
     {

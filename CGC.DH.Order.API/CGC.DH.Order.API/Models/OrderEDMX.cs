@@ -14,7 +14,8 @@ namespace CGC.DH.Order.API.Models
         // connection string in the application configuration file.
         public OrderEDMX()
             : base("name=OrderEDMX")
-        {
+        {            
+            base.Configuration.ProxyCreationEnabled = false;
         }
 
         public virtual DbSet<Order> Orders { get; set; }
