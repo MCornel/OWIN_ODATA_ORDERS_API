@@ -2,27 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CGC.DH.Order.API.Workflows
 {
     public class WorkflowInvoker
     {
-        static void Invoke(IWorkflow workflow)
+        public static void Invoke(IWorkflow workflow)
         {
-            //var workflow = new Workflow();
-            //workflow.Add(new CallWebService());
-            //workflow.Add(new CallWebService());
+            workflow = new Workflow();
+            workflow.Add(new CallWebService(1));
+            workflow.Add(new CallWebService(2));
+            workflow.Add(new CallWebService(3));
+            workflow.Add(new CallWebService(4));
+            workflow.Add(new CallWebService(5));
 
             var engine = new WorkflowEngine();
             engine.Run(workflow);
         }
 
-        static async Task InvokeAsync(IWorkflow workflow)
+        public static async Task InvokeAsync(IWorkflow workflow)
         {
-            //var workflow = new Workflow();
-            //workflow.Add(new CallWebService());
-            //workflow.Add(new CallWebService());
+            workflow = new Workflow();
+            workflow.Add(new CallWebService(1));
+            workflow.Add(new CallWebService(2));
+            workflow.Add(new CallWebService(3));
+            workflow.Add(new CallWebService(4));
+            workflow.Add(new CallWebService(5));
 
             var engine = new WorkflowEngine();
             await engine.RunAsync(workflow);
@@ -31,16 +38,27 @@ namespace CGC.DH.Order.API.Workflows
 
     class CallWebService : ITask
     {
+        int _id;
+
+        public CallWebService(int id)
+        {
+            _id = id;
+        }
         public void Execute()
         {
-            Console.WriteLine("Calling web service...");
+            System.Diagnostics.Debug.WriteLine("Begin Calling web service... " + _id);
+            Thread.Sleep(2000);
+            System.Diagnostics.Debug.WriteLine("End Calling web service... " + _id);
         }
 
         public async Task ExecuteAsync()
         {            
             //bool b = await Task.Run(async() => 
             //{
-                Console.WriteLine("Calling web service async...");           
+                //Console.WriteLine("Calling web service async...");
+                System.Diagnostics.Debug.WriteLine("Begin Calling web service... " + _id);
+                await Task.Delay(2000);
+                System.Diagnostics.Debug.WriteLine("End Calling web service... " + _id);
             //    return true;
             //});
         }
@@ -88,17 +106,18 @@ namespace CGC.DH.Order.API.Workflows
     {
         public void Run(IWorkflow workflow)
         {
-            foreach (ITask task in workflow.GetTasks())
+            foreach (ITask task in workflow.GetTasks()) //.Where(t => t.ToString().Contains("CallWebService"))
             {
                 try
                 {
                     task.Execute();
                 }
-                catch (Exception)
+                catch (Exception exc)
                 {
                     // Logging
                     // Terminate and persist the state of the workflow
-                    throw;
+                    System.Diagnostics.Debug.WriteLine("Exception: " + exc.Message);
+                    //throw;
                 }
             }
         }
@@ -110,7 +129,6 @@ namespace CGC.DH.Order.API.Workflows
             try
             {
                 await Task.WhenAll(asyncOps);
-
                 //string[] pages = await Task.WhenAll(asyncOps);
                 
             }
@@ -120,6 +138,7 @@ namespace CGC.DH.Order.API.Workflows
                 foreach (Task faulted in asyncOps.Where(t => t.IsFaulted))
                 {
                     // work with faulted and faulted.Exception
+                    System.Diagnostics.Debug.WriteLine("Exception: " + exc.Message + " ... Fault: " + faulted.Exception.Message);
                 }
             }
         }       

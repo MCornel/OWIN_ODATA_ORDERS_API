@@ -12,6 +12,7 @@ using System.Web.Http.ModelBinding;
 using System.Web.OData;
 using System.Web.OData.Routing;
 using CGC.DH.Order.API.Models;
+using CGC.DH.Order.API.Workflows;
 
 namespace CGC.DH.Order.API.Controllers
 {
@@ -36,6 +37,12 @@ namespace CGC.DH.Order.API.Controllers
         [EnableQuery]       
         public IQueryable<CGC.DH.Order.API.Models.Order> GetOrders()
         {
+            // Begin: test synchronous workflow call
+            System.Diagnostics.Debug.WriteLine(DateTime.Now);
+            WorkflowInvoker.Invoke(new Workflow());
+            System.Diagnostics.Debug.WriteLine(DateTime.Now);
+            // End: test synchronous workflow call
+
             return db.Orders;         
         }
 
@@ -87,6 +94,12 @@ namespace CGC.DH.Order.API.Controllers
         // POST: odata/Orders
         public async Task<IHttpActionResult> Post(CGC.DH.Order.API.Models.Order order)
         {
+            // Begin: test async workflow call 
+            System.Diagnostics.Debug.WriteLine(DateTime.Now);
+            await WorkflowInvoker.InvokeAsync(new Workflow());
+            System.Diagnostics.Debug.WriteLine(DateTime.Now);
+            // End: test async workflow call
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
