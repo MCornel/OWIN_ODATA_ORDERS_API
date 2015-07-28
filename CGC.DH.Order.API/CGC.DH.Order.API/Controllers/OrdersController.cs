@@ -36,7 +36,7 @@ namespace CGC.DH.Order.API.Controllers
         [EnableQuery]       
         public IQueryable<CGC.DH.Order.API.Models.Order> GetOrders()
         {
-            return db.Orders;
+            return db.Orders;         
         }
 
         // GET: odata/Orders(5)

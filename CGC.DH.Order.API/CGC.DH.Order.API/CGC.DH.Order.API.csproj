@@ -156,6 +156,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Extensions\VersionHttpControllerSelector.cs" />
+    <Compile Include="Workflows\WorkflowInvoker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
