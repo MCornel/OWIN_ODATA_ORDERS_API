@@ -47,16 +47,24 @@ namespace CGC.DH.Order.API.Workflows
         public void Execute()
         {
             System.Diagnostics.Debug.WriteLine("Begin Calling web service... " + _id);
+
+            if (_id == 2 || _id == 4)
+                throw new Exception("Thrown from id# " + _id);
+
             Thread.Sleep(2000);
             System.Diagnostics.Debug.WriteLine("End Calling web service... " + _id);
         }
 
         public async Task ExecuteAsync()
-        {            
+        {
             //bool b = await Task.Run(async() => 
             //{
                 //Console.WriteLine("Calling web service async...");
                 System.Diagnostics.Debug.WriteLine("Begin Calling web service... " + _id);
+
+                if (_id == 2 || _id == 4)
+                    throw new Exception("Thrown from id# " + _id);
+
                 await Task.Delay(2000);
                 System.Diagnostics.Debug.WriteLine("End Calling web service... " + _id);
             //    return true;
@@ -138,7 +146,7 @@ namespace CGC.DH.Order.API.Workflows
                 foreach (Task faulted in asyncOps.Where(t => t.IsFaulted))
                 {
                     // work with faulted and faulted.Exception
-                    System.Diagnostics.Debug.WriteLine("Exception: " + exc.Message + " ... Fault: " + faulted.Exception.Message);
+                    System.Diagnostics.Debug.WriteLine("Exception: " + faulted.Exception.Message + " ... InnerException: " + faulted.Exception.InnerException.Message);
                 }
             }
         }       
